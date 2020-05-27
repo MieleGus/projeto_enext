@@ -1,0 +1,20 @@
+/* @import url font */
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+}
+
+input, button, textarea {
+    /* font 400 k */
+}
+
+button {
+    cursor: pointer;
+}
