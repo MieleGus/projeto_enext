@@ -11,13 +11,15 @@ function App() {
   const [image, setImage] = useState()
 
   const breedsArray = Object.keys(breeds)
+  // const fontArray = Object.keys(font)
 
   const initialStateDogName = localStorage.getItem('DogName') || ''
   const initialStateBreed = localStorage.getItem('Breed') || ''
+  // const initialStateFont = localStorage.getItem('Font') || ['bebas', 'chelsea', 'heebo', 'piedra', 'roboto']
 
   const [dogName, setDogName] = useState(initialStateDogName)
-  const [breed, setBreedLocalStorage] = useState(initialStateBreed)
-
+  const [breed, setBreed] = useState(initialStateBreed)
+  // const [font, setFont] = useState(initialStateFont)
   
 
   useEffect(() => {
@@ -41,18 +43,24 @@ function App() {
     }
     getImage()
   }, [breed])
+
     function handleNewSubmit(e) {
     e.preventDefault()
     localStorage.setItem('DogName', dogName)
     localStorage.setItem('Breed', breed)
+    // localStorage.setItem('Font', font)
     console.log(breed)
   }
 
   function HandleBreedChange(e) {
     e.preventDefault()
-    setBreedLocalStorage(e.target.value)
-    
+    setBreed(e.target.value)
   }
+
+  // function HandleFontChange(e) {
+  //   e.preventDefault()
+  //   setFont(e.target.value)
+  // }
 
   return (
     <div className="container">
@@ -73,6 +81,18 @@ function App() {
               } 
             </select>
           </div>
+
+          {/* <div className="input-block">
+            <label className="labelForm" htmlFor="">Fonte do texto:</label>
+            <select onChange={HandleFontChange} value={font}>
+              <option></option>
+              { fontArray.map((font, key) => (
+                  <option value={font} key={key}>{font}</option>
+                ))
+              } 
+            </select>
+          </div> */}
+
           <button type="submit">Salvar</button>
         </form>
         <img src={image}/>
