@@ -36,8 +36,8 @@
 .green {
     color: green;
 }
-.white {
-    color: white;
+.gray {
+    color: gray;
 }
 .black {
     color: black;
@@ -48,39 +48,53 @@
     display: flex;
     margin: 0 auto;
     height: 100vh;
-    justify-content: center;
-    background-color: #e45151;
+    width: 100%; 
+    justify-content: top;
+    align-items: center;
+    background-color: #EE693F;
+}
+
+.form_dog {
+    margin: 0 auto;
+    background-color: #F69454;
+
 }
 
 .labelForm {
     color:#fff;
 }
+
+#message {
+    margin-top: 10px;
+    text-align:center;
+}
+
 img {
     margin: 0 auto;
     align-items: center;
     width: 450px;
     height: 330px;    
-    position: absolute;
-    top: 180px;
+    margin-left: 20px;
+    margin-bottom: 25px;
     padding: 30px;
 }
 form {
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    width:500px;
-    height: 500px;
     margin: 0 auto;
     display: flex;
+    width: 400px;
+    height: 400px;
     flex-direction: column;
 }
+.dogInfo {
+    display:flex;
+}
 
-.header {
-    width: 100%;
-    height: 60px;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #d61717;
+section form .input-block label {
+    color: #FCFDFE;
+    font-size: 14px;
+    display: block;
 }
 
 nav {
@@ -98,9 +112,4 @@ nav {
     }
 }
 
-.form_dog {
-    width: 320px;
-    margin: 0 auto;
-    margin-top: 30px;
-    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.02);
-}
+

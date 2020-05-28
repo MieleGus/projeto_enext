@@ -11,7 +11,8 @@ function App() {
 
   const breedsArray = Object.keys(breeds)
   const fonts = ['bebas', 'chelsea', 'heebo', 'piedra', 'roboto']
-  const colors = ['red', 'blue', 'green', 'white', 'black']
+  const colors = ['red', 'blue', 'green', 'gray', 'black']
+  const date = new Date()
 
   const initialStateDogName = localStorage.getItem('DogName') || ''
   const initialStateBreed = localStorage.getItem('Breed') || ''
@@ -22,6 +23,7 @@ function App() {
   const [breed, setBreed] = useState(initialStateBreed)
   const [font, setFont] = useState(initialStateFont)
   const [color, setColor] = useState(initialStateColor)
+  const [loading, setLoading] = useState(false)
   
 
   useEffect(() => {
@@ -37,20 +39,28 @@ function App() {
   
   useEffect(() => {
     const getImage = async () => {
+      setLoading(true)
       await axios.get(`https://dog.ceo/api/breed/${breed}/images/random`)
         .then(res => {
           setImage(res.data.message)
+          setLoading(false)
         })
     }
     getImage()
   }, [breed])
 
     function handleNewSubmit(e) {
-    e.preventDefault()
-    localStorage.setItem('DogName', dogName)
-    localStorage.setItem('Breed', breed)
-    localStorage.setItem('Font', font)
-    localStorage.setItem('Color', color)
+    try {
+      e.preventDefault()
+      localStorage.setItem('DogName', dogName)
+      localStorage.setItem('Breed', breed)
+      localStorage.setItem('Font', font)
+      localStorage.setItem('Color', color)
+      localStorage.setItem('Date', date)
+      console.log("Informações adicionadas no localstorage, em:", date)
+    } catch(e) {
+      console.log("Erro:", e)
+    }
   }
 
   function HandleBreedChange(e) {
@@ -67,18 +77,19 @@ function App() {
     e.preventDefault()
     setColor(e.target.value)
   }
+
   return (
-    <div className="container">
+    <div className="container-fluid">
       <section className="form_dog">
         <form onSubmit={handleNewSubmit}>
-          <div className="input-block">
+          <div className="form-group">
             <label className="labelForm" htmlFor="">Nome do cachorro:</label>
-            <input name="dog_name" id="dog_name" value={dogName} onChange={e => setDogName(e.target.value)} />
+            <input className="form-control"  name="dog_name" id="dog_name" value={dogName} onChange={e => setDogName(e.target.value)} />
           </div>
 
-          <div className="input-block">
+          <div className="form-group">
             <label className="labelForm" htmlFor="">Raça do cachorro:</label>
-            <select onChange={HandleBreedChange} value={breed}>
+            <select  className="form-control" onChange={HandleBreedChange} value={breed}>
               <option></option>
               { breedsArray.map((breeds, key) => (
                   <option value={breeds} key={key}>{breeds}</option>
@@ -87,34 +98,47 @@ function App() {
             </select>
           </div>
 
-          <div className="input-block">
+          <div className="form-group">
             <label className="labelForm" htmlFor="">Fonte do texto:</label>
-            <select onChange={HandleFontChange} value={font}>
+            <select className="form-control"  onChange={HandleFontChange} value={font}>
               <option></option>
               { fonts.map((font, key) => (
-                  <option value={font} key={key}>{font}</option>
+                  <option className={font} value={font} key={key}>{font}</option>
                 ))
               } 
             </select>
           </div>
 
-          <div className="input-block">
+          <div className="form-group">
             <label className="labelForm" htmlFor="">Cor do texto:</label>
-            <select onChange={HandleColorChange} value={color}>
+            <select className="form-control" onChange={HandleColorChange} value={color}>
               <option></option>
               { colors.map((color, key) => (
-                  <option value={color} key={key}>{color}</option>
+                  <option className={color} value={color} key={key}>{color}</option>
                 ))
               } 
             </select>
           </div>
 
-          <button type="submit">Salvar</button>
+          <button className="btn btn-light mt-2" type="submit">Salvar</button>
+
+          {loading ? 
+          <div className="text-center">
+            <div className="text-center spinner-border text-dark mt-5" role="status">
+              <span className="sr-only">Loading...</span>
+            </div> 
+          </div>
+        : 
+          <div className="mt-3 text-center">
+            <h1 className={font}>
+              <span className={color}>
+                {dogName}
+              </span>
+            </h1>
+            <img src={image} className="text-center img-fluid" alt="dog_image"/>
+          </div>
+        }
         </form>
-        <div id="message">
-          <h1 className={font}><span className={color}>{dogName}</span></h1>
-        </div>
-        <img src={image}/>
       </section>
     </div>
   );
