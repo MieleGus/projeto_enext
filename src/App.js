@@ -18,16 +18,7 @@ function App() {
   const [dogName, setDogName] = useState(initialStateDogName)
   const [breed, setBreedLocalStorage] = useState(initialStateBreed)
 
-  useEffect(() => {
-    const getDogs = async () => {
-      await axios.get('https://dog.ceo/api/breeds/image/random')
-        .then(res => {
-          setImage(res.data.message)
-          console.log(res)
-        })
-    }
-    getDogs()
-  }, [])
+  
 
   useEffect(() => {
     const getBreeds = async () => {
@@ -39,8 +30,17 @@ function App() {
     }
     getBreeds()
   }, [])
-
- 
+  
+  useEffect(() => {
+    const getImage = async () => {
+      await axios.get(`https://dog.ceo/api/breed/${breed}/images/random`)
+        .then(res => {
+          setImage(res.data.message)
+          console.log(res)
+        })
+    }
+    getImage()
+  }, [breed])
     function handleNewSubmit(e) {
     e.preventDefault()
     localStorage.setItem('DogName', dogName)
@@ -51,34 +51,32 @@ function App() {
   function HandleBreedChange(e) {
     e.preventDefault()
     setBreedLocalStorage(e.target.value)
+    
   }
 
   return (
-    <div className="app">
-      <div className="container">
-        <Header />
-        <section className="form_dog">
-          <form onSubmit={handleNewSubmit}>
-            <div className="input-block">
-              <label htmlFor="">Nome do cachorro:</label>
-              <input name="dog_name" id="dog_name" value={dogName} onChange={e => setDogName(e.target.value)} />
-            </div>
+    <div className="container">
+      <section className="form_dog">
+        <form onSubmit={handleNewSubmit}>
+          <div className="input-block">
+            <label className="labelForm" htmlFor="">Nome do cachorro:</label>
+            <input name="dog_name" id="dog_name" value={dogName} onChange={e => setDogName(e.target.value)} />
+          </div>
 
-            <div className="input-block">
-              <label htmlFor="">Raça do cachorro:</label>
-              <select onChange={HandleBreedChange} value={breed}>
-                <option></option>
-                { breedsArray.map((breeds, key) => (
-                    <option value={breeds} key={key}>{breeds}</option>
-                  ))
-                } 
-              </select>
-            </div>
-            <button type="submit">Salvar</button>
-          </form>
-          <img src={image}/>
-        </section>
-      </div>
+          <div className="input-block">
+            <label className="labelForm" htmlFor="">Raça do cachorro:</label>
+            <select onChange={HandleBreedChange} value={breed}>
+              <option></option>
+              { breedsArray.map((breeds, key) => (
+                  <option value={breeds} key={key}>{breeds}</option>
+                ))
+              } 
+            </select>
+          </div>
+          <button type="submit">Salvar</button>
+        </form>
+        <img src={image}/>
+      </section>
     </div>
   );
 }
