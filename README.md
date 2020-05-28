@@ -1,3 +1,7 @@
+Projeto desenvolvido para teste prático da enext. 
+
+O usuário digita o nome do cachorro, seleciona a sua raça e é gerado uma imagem randômica da raça desse cachorro. É possível selecionar a fonte e a cor da fonte, por meio de inputs. As informações são salvas no localstorage.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
