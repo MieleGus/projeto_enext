@@ -3,7 +3,6 @@ import axios from 'axios'
 
 import './styles.scss'
 import './global.css'
-import Header from './elements/Header'
 
 
 function App() {
@@ -11,15 +10,18 @@ function App() {
   const [image, setImage] = useState()
 
   const breedsArray = Object.keys(breeds)
-  // const fontArray = Object.keys(font)
+  const fonts = ['bebas', 'chelsea', 'heebo', 'piedra', 'roboto']
+  const colors = ['red', 'blue', 'green', 'white', 'black']
 
   const initialStateDogName = localStorage.getItem('DogName') || ''
   const initialStateBreed = localStorage.getItem('Breed') || ''
-  // const initialStateFont = localStorage.getItem('Font') || ['bebas', 'chelsea', 'heebo', 'piedra', 'roboto']
+  const initialStateFont = localStorage.getItem('Font') || fonts
+  const initialStateColor = localStorage.getItem('Color') || colors
 
   const [dogName, setDogName] = useState(initialStateDogName)
   const [breed, setBreed] = useState(initialStateBreed)
-  // const [font, setFont] = useState(initialStateFont)
+  const [font, setFont] = useState(initialStateFont)
+  const [color, setColor] = useState(initialStateColor)
   
 
   useEffect(() => {
@@ -38,7 +40,6 @@ function App() {
       await axios.get(`https://dog.ceo/api/breed/${breed}/images/random`)
         .then(res => {
           setImage(res.data.message)
-          console.log(res)
         })
     }
     getImage()
@@ -48,8 +49,8 @@ function App() {
     e.preventDefault()
     localStorage.setItem('DogName', dogName)
     localStorage.setItem('Breed', breed)
-    // localStorage.setItem('Font', font)
-    console.log(breed)
+    localStorage.setItem('Font', font)
+    localStorage.setItem('Color', color)
   }
 
   function HandleBreedChange(e) {
@@ -57,11 +58,15 @@ function App() {
     setBreed(e.target.value)
   }
 
-  // function HandleFontChange(e) {
-  //   e.preventDefault()
-  //   setFont(e.target.value)
-  // }
+  function HandleFontChange(e) {
+    e.preventDefault()
+    setFont(e.target.value)
+  }
 
+  function HandleColorChange(e) {
+    e.preventDefault()
+    setColor(e.target.value)
+  }
   return (
     <div className="container">
       <section className="form_dog">
@@ -82,19 +87,33 @@ function App() {
             </select>
           </div>
 
-          {/* <div className="input-block">
+          <div className="input-block">
             <label className="labelForm" htmlFor="">Fonte do texto:</label>
             <select onChange={HandleFontChange} value={font}>
               <option></option>
-              { fontArray.map((font, key) => (
+              { fonts.map((font, key) => (
                   <option value={font} key={key}>{font}</option>
                 ))
               } 
             </select>
-          </div> */}
+          </div>
+
+          <div className="input-block">
+            <label className="labelForm" htmlFor="">Cor do texto:</label>
+            <select onChange={HandleColorChange} value={color}>
+              <option></option>
+              { colors.map((color, key) => (
+                  <option value={color} key={key}>{color}</option>
+                ))
+              } 
+            </select>
+          </div>
 
           <button type="submit">Salvar</button>
         </form>
+        <div id="message">
+          <h1 className={font}><span className={color}>{dogName}</span></h1>
+        </div>
         <img src={image}/>
       </section>
     </div>
