@@ -138,6 +138,7 @@ function App() {
             <img src={image} className="text-center img-fluid" alt="dog_image"/>
           </div>
         }
+       
         </form>
       </section>
     </div>
